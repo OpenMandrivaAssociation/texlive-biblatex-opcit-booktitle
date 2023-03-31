@@ -1,6 +1,6 @@
 Name:		texlive-biblatex-opcit-booktitle
 Version:	48983
-Release:	1
+Release:	2
 Summary:	Use op. cit. for the booktitle of a subentry
 Group:		Publishing
 URL:		http://www.ctan.org/tex-archive/macros/latex/contrib/biblatex-opcit-booktitle
