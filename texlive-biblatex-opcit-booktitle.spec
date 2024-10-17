@@ -3,7 +3,7 @@ Version:	48983
 Release:	2
 Summary:	Use op. cit. for the booktitle of a subentry
 Group:		Publishing
-URL:		http://www.ctan.org/tex-archive/macros/latex/contrib/biblatex-opcit-booktitle
+URL:		https://www.ctan.org/tex-archive/macros/latex/contrib/biblatex-opcit-booktitle
 License:	lppl1.3
 Source0:	http://mirrors.ctan.org/systems/texlive/tlnet/archive/biblatex-opcit-booktitle.r%{version}.tar.xz
 Source1:	http://mirrors.ctan.org/systems/texlive/tlnet/archive/biblatex-opcit-booktitle.doc.r%{version}.tar.xz
