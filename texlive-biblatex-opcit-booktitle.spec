@@ -12,9 +12,7 @@ License:	lppl1.3
 Source0:	https://mirrors.ctan.org/systems/texlive/tlnet/archive/biblatex-opcit-booktitle.r%{tl_revision}.tar.xz
 Source1:	https://mirrors.ctan.org/systems/texlive/tlnet/archive/biblatex-opcit-booktitle.doc.r%{tl_revision}.tar.xz
 BuildArch:	noarch
-BuildSystem:	texlive
-BuildRequires:	texlive-tlpkg
-%texlive_base_requires
+Requires(pre):	texlive-tlpkg
 Provides:	texlive(%{tl_name}) = %{tl_revision}
 
 %description
@@ -26,3 +24,49 @@ does not work. This package enables to obtain references like this:
 Author1, Title, in Booktitle, Location, Publisher, Year, pages xxx
 Author2, Title2, in Booktitle, op. cit, pages.
 
+%prep
+%setup -q -c -a1
+rm -rf tlpkg
+if [ -d RELOC ]; then
+	cp -a RELOC/. .
+	rm -rf RELOC
+fi
+
+%build
+
+%install
+mkdir -p %{buildroot}%{_datadir}/texmf-dist
+# Flat tlnet layout: tex/ doc/ source/ fonts/ ... -> texmf-dist/
+if [ -d texmf-dist ]; then
+	cp -a texmf-dist/. %{buildroot}%{_datadir}/texmf-dist/
+elif [ -d texmf ]; then
+	mkdir -p %{buildroot}%{_datadir}/texmf
+	cp -a texmf/. %{buildroot}%{_datadir}/texmf/
+else
+	for d in * .[!.]* ..?*; do
+		[ -e "$d" ] || continue
+		case "$d" in tlpkg|RELOC) continue ;; esac
+		cp -a "$d" %{buildroot}%{_datadir}/texmf-dist/
+	done
+fi
+rm -rf %{buildroot}%{_datadir}/texmf-dist/tlpkg
+
+%files
+%dir %{_datadir}/texmf-dist
+%dir %{_datadir}/texmf-dist/doc
+%dir %{_datadir}/texmf-dist/tex
+%dir %{_datadir}/texmf-dist/doc/latex
+%dir %{_datadir}/texmf-dist/tex/latex
+%dir %{_datadir}/texmf-dist/doc/latex/biblatex-opcit-booktitle
+%dir %{_datadir}/texmf-dist/tex/latex/biblatex-opcit-booktitle
+%dir %{_datadir}/texmf-dist/doc/latex/biblatex-opcit-booktitle/documentation
+%doc %{_datadir}/texmf-dist/doc/latex/biblatex-opcit-booktitle/README
+%doc %{_datadir}/texmf-dist/doc/latex/biblatex-opcit-booktitle/documentation/biblatex-opcit-booktitle-example.bib
+%doc %{_datadir}/texmf-dist/doc/latex/biblatex-opcit-booktitle/documentation/biblatex-opcit-booktitle-example.pdf
+%doc %{_datadir}/texmf-dist/doc/latex/biblatex-opcit-booktitle/documentation/biblatex-opcit-booktitle-example.tex
+%doc %{_datadir}/texmf-dist/doc/latex/biblatex-opcit-booktitle/documentation/biblatex-opcit-booktitle.pdf
+%doc %{_datadir}/texmf-dist/doc/latex/biblatex-opcit-booktitle/documentation/biblatex-opcit-booktitle.tex
+%doc %{_datadir}/texmf-dist/doc/latex/biblatex-opcit-booktitle/documentation/latexmkrc
+%doc %{_datadir}/texmf-dist/doc/latex/biblatex-opcit-booktitle/documentation/makefile
+%doc %{_datadir}/texmf-dist/doc/latex/biblatex-opcit-booktitle/makefile
+%{_datadir}/texmf-dist/tex/latex/biblatex-opcit-booktitle/biblatex-opcit-booktitle.sty
